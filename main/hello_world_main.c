@@ -67,7 +67,7 @@ float measure_and_submit() {
     ESP_LOGI(TAG, "Temp = %f", temp);
 
     if (temp > 45 || temp < 5) {
-        ESP_LOGE(TAG, "Invalid temperature");
+        ESP_LOGE(TAG, "Invalid temperature: %f", temp);
         return -1;
     }
 
@@ -94,9 +94,9 @@ void app_main()
     ESP_LOGI(TAG, "Waiting for initialisation...");
     vTaskDelay(4000 / portTICK_PERIOD_MS);
 
-    float temp;
+    float temp = -1;
     int attempts = 10;
-    while(attempts > 0 || (temp = measure_and_submit()) > -1.0) {
+    while((temp = measure_and_submit()) > -1.0 || attempts > 0) {
         if (temp <= 0) {
             attempts--;
         }
