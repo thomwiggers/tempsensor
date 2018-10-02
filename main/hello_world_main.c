@@ -97,7 +97,9 @@ void app_main()
     float temp;
     int attempts = 10;
     while(attempts > 0 || (temp = measure_and_submit()) > -1.0) {
-        attempts--;
+        if (temp <= 0) {
+            attempts--;
+        }
         vTaskDelay(20000 / portTICK_PERIOD_MS);
     }
 
